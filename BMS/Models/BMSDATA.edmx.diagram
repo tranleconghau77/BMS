@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1fec2c1785a048a1882def116887c35b" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="BMSDATAModel.Admin" Width="1.5" PointX="4.5" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.Author" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.Book" Width="1.5" PointX="2.875" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.BorrowBook" Width="1.5" PointX="6.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.Borrower" Width="1.5" PointX="2.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.Category" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSDATAModel.sysdiagram" Width="1.5" PointX="8.625" PointY="5.25" IsExpanded="false" />
+        <AssociationConnector Association="BMSDATAModel.FK__BorrowBoo__admin__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSDATAModel.FK__Book__book_autho__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSDATAModel.FK__Book__book_categ__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSDATAModel.FK__BorrowBoo__book___2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSDATAModel.FK__BorrowBoo__categ__300424B4" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.25" PointY="3.0379850260416661" />
+          <ConnectorPoint PointX="2.25" PointY="7.24513391021331" />
+          <ConnectorPoint PointX="2.5624998360872269" PointY="7.24513391021331" />
+          <ConnectorPoint PointX="2.5624998360872269" PointY="7.9951340610875672" />
+          <ConnectorPoint PointX="2.1145829847082496" PointY="7.9951340610875672" />
+          <ConnectorPoint PointX="2.4999993341043591" PointY="9.9242317290988638" />
+          <ConnectorPoint PointX="3.3020827658474445" PointY="9.9242317290988638" />
+          <ConnectorPoint PointX="3.3020827658474445" PointY="9.3096482787293269" />
+          <ConnectorPoint PointX="2.8229162693023682" PointY="9.3096482787293269" />
+          <ConnectorPoint PointX="2.8229162693023682" PointY="9.0388149000716282" />
+          <ConnectorPoint PointX="3.1874996041879058" PointY="9.0388149000716282" />
+          <ConnectorPoint PointX="3.1874996041879058" PointY="8.3617315670487358" />
+          <ConnectorPoint PointX="2.7395826913416386" PointY="8.3617315670487358" />
+          <ConnectorPoint PointX="2.7395826913416386" PointY="7.7054815810185744" />
+          <ConnectorPoint PointX="4.0208332547917962" PointY="7.7054815810185744" />
+          <ConnectorPoint PointX="4.0208332547917962" PointY="7.4867316266533805" />
+          <ConnectorPoint PointX="2.59375" PointY="7.4867316266533805" />
+          <ConnectorPoint PointX="2.59375" PointY="0.93749998603016138" />
+          <ConnectorPoint PointX="7" PointY="0.93749998603016138" />
+          <ConnectorPoint PointX="7" PointY="1.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="BMSDATAModel.FK__BorrowBoo__stude__2F10007B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

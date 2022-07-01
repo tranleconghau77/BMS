@@ -1,0 +1,75 @@
+﻿@model BMS.Models.Book
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Book</h2>
+
+
+@using (Html.BeginForm("Create", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col text-center">
+                <span><strong>Image:</strong></span>
+                <div class="">
+                    @*@Html.EditorFor(model => model.book_image, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <img src="@Url.Content(Model.book_image)" style="height:auto;width:200px;margin:10px" id="previewImage" />
+                    <input type="file" name="ImageUpload" onchange="ShowImagePreview(this, document.getElementById('previewImage'))" />
+                    @Html.ValidationMessageFor(model => model.book_image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <span><strong>Name:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.book_name, new { htmlAttributes = new { @class = "", placeholder = "Name book..." } })
+                        @Html.ValidationMessageFor(model => model.book_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Category:</strong></span>
+                    <div class="col-md-10">
+                        @Html.DropDownList("book_category", null, htmlAttributes: new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.book_category, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Author:</strong></span>
+                    <div class="col-md-10">
+                        @Html.DropDownList("book_author", null, htmlAttributes: new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.book_author, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Description:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.book_brief, new { htmlAttributes = new { @class = "", placeholder = "Type here..." } })
+                        @Html.ValidationMessageFor(model => model.book_brief, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,74 @@
+﻿@model BMS.Models.BorrowBook
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BorrowBook</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.borrow_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.borrow_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expire_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expire_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin.admin_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Admin.admin_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.book_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.book_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.category_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.category_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Borrower.borrower_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Borrower.borrower_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.borrow_book_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

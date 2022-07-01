@@ -1,0 +1,4 @@
+﻿Image="~/Contents/Images/Book/add.png"
+
+ [NotMapped]
+        public HttpPostedFileBase ImageUpload { get; set; }

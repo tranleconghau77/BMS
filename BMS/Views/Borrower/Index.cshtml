@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BMS.Models.Borrower>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Address
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.borrower_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.borrower_phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.borrower_email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.borrower_address)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.borrower_id }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Details", "Details", new { id = item.borrower_id }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.borrower_id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

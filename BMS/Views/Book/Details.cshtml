@@ -1,0 +1,45 @@
+﻿@model BMS.Models.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details Book</h2>
+
+<div>
+
+    <div class="d-flex align-items-center">
+        <div>
+            <img src="@Url.Content(Model.book_image)" style="height:auto;width:200px;margin:10px" />
+        </div>
+
+        <div class="m-2">
+            <div class="form-group mb-2">
+                <span><strong>Name:</strong></span>
+                @Html.DisplayFor(model => model.book_name)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Author:</strong></span>
+                @Html.DisplayFor(model => model.Author.author_name)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Category:</strong></span>
+                @Html.DisplayFor(model => model.Category.category_name)
+
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Description:</strong></span>
+                @Html.DisplayFor(model => model.book_brief)
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.book_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

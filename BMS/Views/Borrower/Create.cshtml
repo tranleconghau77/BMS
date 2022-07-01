@@ -1,0 +1,125 @@
+﻿@model BMS.Models.Borrower
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Borrower</h2>
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @*<div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.borrower_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.borrower_name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.borrower_name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.borrower_phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.borrower_phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.borrower_phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.borrower_email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.borrower_email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.borrower_email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.borrower_address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.borrower_address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.borrower_address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.borrower_image, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.borrower_image, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.borrower_image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>*@
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col text-center">
+               
+                <div class="">
+                    @*@Html.EditorFor(model => model.borrower_image, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <img src="@Url.Content(Model.borrower_image)" style="height:auto;width:200px;margin:10px" id="previewImage" />
+                    <input type="file" name="ImageUpload" onchange="ShowImagePreview(this, document.getElementById('previewImage'))" />
+                    @Html.ValidationMessageFor(model => model.borrower_image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <span><strong>Name:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.borrower_name, new { htmlAttributes = new { @class = "", placeholder = "Your name..." } })
+                        @Html.ValidationMessageFor(model => model.borrower_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Phone:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.borrower_phone, new { htmlAttributes = new { @class = "", placeholder = "Your phone..." } })
+                        @Html.ValidationMessageFor(model => model.borrower_phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Email:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.borrower_email, new { htmlAttributes = new { @class = "", placeholder = "Your email..." } })
+                        @Html.ValidationMessageFor(model => model.borrower_email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span><strong>Address:</strong></span>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.borrower_address, new { htmlAttributes = new { @class = "", placeholder = "Your address..." } })
+                        @Html.ValidationMessageFor(model => model.borrower_address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

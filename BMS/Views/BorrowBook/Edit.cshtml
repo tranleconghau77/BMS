@@ -1,0 +1,98 @@
+﻿@model BMS.Models.BorrowBook
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>BorrowBook</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.borrow_book_id)
+
+        <div class="form-group">
+            <span><strong>Admin:</strong></span>
+            <div class="col-md-10">
+                @Html.DropDownList("admin_id", null, htmlAttributes: new { @class = "" })
+                @Html.ValidationMessageFor(model => model.admin_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span><strong>Borrower:</strong></span>
+            <div class="col-md-10">
+                @Html.DropDownList("borrower_id", null, htmlAttributes: new { @class = "" })
+                @Html.ValidationMessageFor(model => model.borrower_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span><strong>Book:</strong></span>
+            <div class="col-md-10">
+                @Html.DropDownList("book_id", null, htmlAttributes: new { @class = "" })
+                @Html.ValidationMessageFor(model => model.book_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span><strong>Category:</strong></span>
+            <div class="col-md-10">
+                @Html.DropDownList("category_id", null, htmlAttributes: new { @class = "" })
+                @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <span><strong>Start:</strong></span>
+            <div class="col-md-10 ">
+                <input type="datetime-local" id="meeting-time"
+                       name="borrow_date" value="2018-06-12T19:30" class="" />
+                @*@Html.EditorFor(model => model.borrow_date, new { htmlAttributes = new { @class = "datepicker" } })
+                    @Html.ValidationMessageFor(model => model.borrow_date, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span><strong>Expire:</strong></span>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.expire_date, new { @class = "expire_date", disabled = "disabled", @readonly = "readonly" })
+                @Html.EditorFor(model => model.expire_date, new { htmlAttributes = new { @class = "d-none expire_date" } })
+                @Html.ValidationMessageFor(model => model.expire_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span><strong>Status:</strong></span>
+            <div class="col-md-10">
+                <select name="status">
+                    <option value="Done">Done</option>
+                    <option value="Late">Late</option>
+                    <option value="Progress">Progress</option>
+                </select>
+                @*@Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

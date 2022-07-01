@@ -1,0 +1,50 @@
+﻿@model BMS.Models.Borrower
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete Borrower</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+
+    <div class="d-flex align-items-center">
+        <div>
+            <img src="@Url.Content(Model.borrower_image)" style="height:auto;width:200px;margin:10px" />
+        </div>
+
+        <div class="m-2">
+            <div class="form-group mb-2">
+                <span><strong>Name:</strong></span>
+                @Html.DisplayFor(model => model.borrower_name)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Phone:</strong></span>
+                @Html.DisplayFor(model => model.borrower_phone)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Email:</strong></span>
+                @Html.DisplayFor(model => model.borrower_email)
+
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Address:</strong></span>
+                @Html.DisplayFor(model => model.borrower_address)
+
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

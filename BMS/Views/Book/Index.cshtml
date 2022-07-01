@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BMS.Models.Book>
+
+@helper Truncate(string input, int length)
+
+
+{
+    if (input == null)
+    {
+        @input
+    }
+    else
+    {
+
+        if (input != null && input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+
+            @input.Substring(0, length)<text>...</text>
+        }
+    }
+}
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center"><strong> LIST BOOKS</strong></h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = "name" })
+        </th>
+
+        <th>
+            @Html.ActionLink("Author", "Index", new { sortOrder = "author" })
+        </th>
+        <th>
+            @Html.ActionLink("Category", "Index", new { sortOrder = "category" })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="revertical align-middle">
+                @Truncate(@item.book_name, 17)
+            </td>
+            <td class="revertical align-middle">
+                @Truncate(@item.Author.author_name, 17)
+            </td>
+            <td class="revertical align-middle">
+                @Truncate(@item.Category.category_name, 17)
+            </td>
+            <td class="revertical">
+                @Html.ActionLink("Edit", "Edit", new { id = item.book_id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Details", "Details", new { id = item.book_id }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.book_id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<BMS.Models.BorrowBook>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table borrowbook">
+    <tr>
+        <th>
+            Start
+        </th>
+        <th>
+            Expire
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Admin
+        </th>
+        <th>
+            Book
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Borrower
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr data-id="@item.borrow_book_id">
+            <td>
+
+                @{
+                    var dateAndTimeBorrow = @item.borrow_date;
+                    var date = dateAndTimeBorrow?.ToString("dd/MM/yyyy");
+                }
+                @date
+            </td>
+            <td>
+                @{
+                    var dateAndTimeExpire = @item.expire_date;
+                    date = dateAndTimeExpire?.ToString("dd/MM/yyyy");
+                }
+                @date
+            </td>
+            <td>
+                @if (item.status == "Done")
+                {
+                    <span class="badge badge-sm bg-gradient-success">@Html.DisplayFor(modelItem => item.status)</span>
+                }
+                @if (item.status == "Late")
+                {
+                    <span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => item.status)</span>
+                }
+                @if (item.status == "Progress")
+                {
+                    <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => item.status)</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Admin.admin_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.book_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.category_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Borrower.borrower_name)
+            </td>
+
+        </tr>
+        <tr data-id="@item.borrow_book_id" class="action text-center">
+
+            <td colspan="7">
+                @Html.ActionLink("Edit", "Edit", new { id = item.borrow_book_id }, new { @class = "btn btn-warning" }) 
+
+                @Html.ActionLink("Details", "Details", new { id = item.borrow_book_id }, new { @class = "btn btn-info" }) 
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.borrow_book_id }, new { @class = "btn btn-danger" })
+
+            </td>
+           
+
+        </tr>
+    }
+
+</table>

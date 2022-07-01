@@ -1,0 +1,45 @@
+﻿@model BMS.Models.Borrower
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <div class="d-flex align-items-center">
+        <div>
+            <img src="@Url.Content(Model.borrower_image)" style="height:auto;width:200px;margin:10px" />
+        </div>
+
+        <div class="m-2">
+            <div class="form-group mb-2">
+                <span><strong>Name:</strong></span>
+                @Html.DisplayFor(model => model.borrower_name)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Phone:</strong></span>
+                @Html.DisplayFor(model => model.borrower_phone)
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Email:</strong></span>
+                @Html.DisplayFor(model => model.borrower_email)
+
+            </div>
+
+            <div class="form-group mb-2">
+                <span><strong>Address:</strong></span>
+                @Html.DisplayFor(model => model.borrower_address)
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.borrower_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

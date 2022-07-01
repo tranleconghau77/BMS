@@ -1,0 +1,67 @@
+﻿@model BMS.Models.BorrowBook
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete BorrowBook</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <div class="form-group mb-2">
+        <span><strong>Start:</strong></span>
+        @Html.DisplayFor(model => model.borrow_date)
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Expire:</strong></span>
+        @Html.DisplayFor(model => model.expire_date)
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Status:</strong></span>
+        @if (Model.status == "Done")
+        {
+            <span class="badge badge-sm bg-gradient-success">@Html.DisplayFor(modelItem => modelItem.status)</span>
+        }
+        @if (Model.status == "Late")
+        {
+            <span class="badge badge-sm bg-gradient-danger">@Html.DisplayFor(modelItem => modelItem.status)</span>
+        }
+        @if (Model.status == "In Progress")
+        {
+            <span class="badge badge-sm bg-gradient-secondary">@Html.DisplayFor(modelItem => modelItem.status)</span>
+        }
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Admin:</strong></span>
+        @Html.DisplayFor(model => model.Admin.admin_name)
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Book:</strong></span>
+        @Html.DisplayFor(model => model.Book.book_name)
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Category:</strong></span>
+        @Html.DisplayFor(model => model.Category.category_name)
+    </div>
+
+    <div class="form-group mb-2">
+        <span><strong>Borrower:</strong></span>
+        @Html.DisplayFor(model => model.Borrower.borrower_name)
+    </div>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

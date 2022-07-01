@@ -1,0 +1,31 @@
+﻿@model BMS.Models.Admin
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="profile">
+    <div class="header-profile">
+        <figure>
+            <img src="@Url.Content(Model.admin_image)" width="200" height="200"  alt="" />
+        </figure>
+        <div class="header-profile-content">
+            <h1>
+                @Model.admin_name
+            </h1>
+            <h3>@Model.admin_username</h3>
+        </div>
+    </div>
+    <div class="content-profile">
+        <dl>
+            <dt>Address</dt>
+            <dd>@Model.admin_address</dd>
+            <dt>Phone number</dt>
+            <dd>@Model.admin_phone</dd>
+            <dt>
+                <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+            </dt>
+        </dl>
+    </div>
+
+</div> <!-- end profile -->

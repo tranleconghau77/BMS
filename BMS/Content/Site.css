@@ -1,0 +1,26 @@
+﻿body {
+    font-family: "Roboto Slab", sans-serif !important;
+}
+table.table{
+    color:black !important;
+}
+.borrowbook.table > tbody > tr:hover{
+    background-color: lightgray;
+}
+
+.wrap-action{
+    position:relative;
+}
+ul.actionadmin{
+    background-color:white;
+    width:200px;
+    position:absolute;
+    top:20px;
+    right:-100%;
+    z-index:9;
+    border-radius:10px;
+
+}
+ul.actionadmin li:hover{
+    cursor:pointer;
+}

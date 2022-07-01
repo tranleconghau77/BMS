@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>DB</h1>
+@*@foreach (var item in ViewBag.Db)
+{
+    <p>item.book_name</p>
+}
+<p>- @ViewBag.Visit</p>
+<p>Db-@ViewBag.Db</p>*@
+@foreach (var item in ViewBag.Pizzas)
+{
+    <p>@item.book_name</p>
+}
+<p>Redis-@ViewBag.Pizzas</p>
+<h2>Index</h2>
+

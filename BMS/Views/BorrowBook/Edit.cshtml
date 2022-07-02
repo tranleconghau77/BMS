@@ -72,9 +72,27 @@
             <span><strong>Status:</strong></span>
             <div class="col-md-10">
                 <select name="status">
-                    <option value="Done">Done</option>
-                    <option value="Late">Late</option>
-                    <option value="Progress">Progress</option>
+                    @if (@Model.status == "Late")
+                    {
+                        <option value="Late">Late</option>
+                        <option value="Done">Done</option>
+                        <option value="Progress">Progress</option>
+                    }
+
+                    @if (@Model.status == "Done")
+                    {
+                        <option value="Done">Done</option>
+                        <option value="Late">Late</option>
+                        <option value="Progress">Progress</option>
+                    }
+
+                    @if (@Model.status == "Progress")
+                    {
+                        <option value="Progress">Progress</option>
+                        <option value="Done">Done</option>
+                        <option value="Late">Late</option>
+                    }
+
                 </select>
                 @*@Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })*@

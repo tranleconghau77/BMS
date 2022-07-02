@@ -45,3 +45,12 @@ function formatDate(date) {
     );
 }
 
+$(document).ready(function () {
+    let datetime = $("#meeting-time").val() + "";
+
+    console.log(Date.parse(datetime));
+    let date = new Date(datetime);
+    date.toLocaleString('en-US')
+    $(".expire_date").val(formatDate(new Date(date.addDays(14))));
+    
+})

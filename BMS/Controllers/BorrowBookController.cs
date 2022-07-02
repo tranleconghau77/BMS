@@ -66,24 +66,27 @@ namespace BMS.Controllers
             var borrowBooksSearch = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower);
             CheckExpire();
 
-            if (selectSort == "Earliest")
-            {
-                var borrowBooksSortNewest = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderBy(b => b.borrow_date);
-                return View(borrowBooksSortNewest.ToList());
-            }
-
             if (selectSort == "Latest")
             {
-                var borrowBooksSortLatest = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b => b.borrow_date);
-                return View(borrowBooksSortLatest.ToList());
+                borrowBooksSearch = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b => b.borrow_date);
+                return View(borrowBooksSearch.ToList());
             }
 
-            var borrowBooksSearchResult = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Category).Include(b => b.Category).Include(b => b.Borrower).Where(b => b.Book.book_name.Contains(search) || b.Borrower.borrower_name.Contains(search) || b.Category.category_name.Contains(search) ||b.Admin.admin_name.Contains(search));
-            if (borrowBooksSearchResult != null && search!=null)
+            if (selectSort == "Oldest")
             {
+                borrowBooksSearch = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderBy(b => b.borrow_date);
+                return View(borrowBooksSearch.ToList());
+            }
+
+
+
+            if (search != null && search.Length > 0)
+            {
+                var borrowBooksSearchResult = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Category).Include(b => b.Category).Include(b => b.Borrower).Where(b => b.Book.book_name.Contains(search) || b.Borrower.borrower_name.Contains(search) || b.Category.category_name.Contains(search) || b.Admin.admin_name.Contains(search));
                 return View(borrowBooksSearchResult);
 
             }
+            borrowBooksSearch = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b => b.borrow_date);
             return View(borrowBooksSearch);
 
             //var borrowBooksSort = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b=>b.borrow_date);

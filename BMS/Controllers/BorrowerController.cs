@@ -50,10 +50,10 @@ namespace BMS.Controllers
             {
                 return View(db.Borrowers.ToList());
             }
-            var borrowers = db.Borrowers.Where(b => b.borrower_name.Contains(search) || b.borrower_email.Contains(search)|| b.borrower_phone== search || b.borrower_address.Contains(search);
+            var borrowers = db.Borrowers.Where(b => b.borrower_name.Contains(search) || b.borrower_email.Contains(search)|| b.borrower_phone== search || b.borrower_address.Contains(search));
             if(borrowers != null)
             {
-                return View("Index", borrowers);
+                return View(borrowers);
             }
             return View(db.Borrowers.ToList());
         }

@@ -40,7 +40,7 @@ namespace BMS.Controllers
             Session["UserName"] = checkAccount.admin_username;
             Session["Token"] = Secure.Encrypt(Secure.Encrypt(Variable.TokenCode));
             Session["UserImage"] = checkAccount.admin_image;
-            Session["TypeAccount"] = 0;
+            Session["TypeAccount"] = "0";
             CacheData.SetDataFromCache(checkAccount.admin_username,Secure.Encrypt(Variable.TokenCode));
             return RedirectToAction("Index","Home");
         }
@@ -75,21 +75,22 @@ namespace BMS.Controllers
             Session["Username"] = email;
             Session["Token"] = Secure.Encrypt(Secure.Encrypt(Variable.TokenCode));
             Session["UserImage"] = pathDataBase;
-            Session["TypeAccount"] = 1;
+            Session["TypeAccount"] = "1";
 
             Session["Token"] = Secure.Encrypt(Secure.Encrypt(Variable.TokenCode));
             CacheData.SetDataFromCache(email, Secure.Encrypt(Variable.TokenCode));
         }
         public ActionResult SignOut()
         {
-            string type = Session["TypeAccount"].ToString();
+
+            string type = (string) Session["TypeAccount"];
             if (type=="1")
             {
-                int username = Int32.Parse(Session["TypeAccount"].ToString());
+                int username = Int32.Parse((string)Session["TypeAccount"]);
                 if (username == 1)
                 {
                     Session.Clear();
-                    return Redirect("https://www.google.com/accounts/Logout");
+                    return RedirectToAction("LoginPage"); ;
                 }
             }
             Session.Clear();

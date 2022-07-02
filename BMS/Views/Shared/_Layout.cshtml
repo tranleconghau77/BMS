@@ -125,8 +125,6 @@
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
 
-
-
                     @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
                     {
                         @Html.Label(ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["controller"].ToString())
@@ -142,22 +140,28 @@
                     }
 
 
-
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        @{ 
+                        @{
                             var route = ViewContext.RouteData.Values["controller"].ToString();
-                            var path = "/"+route +"/"+ ViewContext.RouteData.Values["action"].ToString();
-                            @*<p>@path</p>*@
+                            var path = "/" + route + "/" + ViewContext.RouteData.Values["action"].ToString();
+
+
+                            @*<p>@path</p>*@}
+                        @{
+                            if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
+                            {
+                                <form action="@path" method="get">
+                                    <div class="input-group input-group-outline">
+                                        @Html.AntiForgeryToken()
+                                        <label class="form-label">Type here...</label>
+                                        <input type="text" name="search" class="form-control">
+                                    </div>
+                                </form>
+                            }
                         }
-                        <form action="@path" method="get">
-                            <div class="input-group input-group-outline">
-                                @Html.AntiForgeryToken()
-                                <label class="form-label">Type here...</label>
-                                <input type="text" name="search" class="form-control">
-                            </div>
-                        </form>
+
                     </div>
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item d-flex align-items-center">
@@ -171,7 +175,7 @@
                                     <i class="fa fa-chevron-down"></i>
                                     <ul class="actionadmin d-none">
                                         @{
-                                            string resulta = Session["Username"].ToString().Substring(0, Session["Username"].ToString().Length - 10);
+                                            string resulta = ((string)Session["Username"]).Substring(0, ((string)Session["Username"]).Length - 10);
                                         }
                                         <li>@Html.ActionLink("My account", "Details", "Admin") </li>
                                         <li>@Html.ActionLink("Edit account", "Edit", "Admin", new { name = resulta }, null)</li>
@@ -238,7 +242,7 @@
         </div>
     </main>
     <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+        <a class="d-none fixed-plugin-button text-dark position-fixed px-3 py-2">
             <i class="material-icons py-2">settings</i>
         </a>
         <div class="card shadow-lg">

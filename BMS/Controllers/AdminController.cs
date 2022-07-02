@@ -103,6 +103,7 @@ namespace BMS.Controllers
 
             if (ModelState.IsValid)
             {
+                Session["Username"]=admin.admin_username;
                 if (admin.ImageUpload != null)
                 {
                     string filename = Path.GetFileNameWithoutExtension(admin.ImageUpload.FileName);

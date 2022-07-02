@@ -146,7 +146,12 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <form action="/Book/Search" method="post">
+                        @{ 
+                            var route = ViewContext.RouteData.Values["controller"].ToString();
+                            var path = "/"+route +"/"+ ViewContext.RouteData.Values["action"].ToString();
+                            @*<p>@path</p>*@
+                        }
+                        <form action="@path" method="get">
                             <div class="input-group input-group-outline">
                                 @Html.AntiForgeryToken()
                                 <label class="form-label">Type here...</label>

@@ -11,6 +11,7 @@ namespace BMS.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Web;
 
@@ -24,9 +25,13 @@ namespace BMS.Models
         }
     
         public int borrower_id { get; set; }
+        [Required(ErrorMessage = "Please enter borrower name.")]
         public string borrower_name { get; set; }
+        [Required(ErrorMessage = "Please enter phone number.")]
         public string borrower_phone { get; set; }
+        [Required(ErrorMessage = "Please enter email.")]
         public string borrower_email { get; set; }
+        [Required]
         public string borrower_address { get; set; }
         public string borrower_image { get; set; }
 

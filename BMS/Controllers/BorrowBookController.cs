@@ -57,20 +57,14 @@ namespace BMS.Controllers
 
         // GET: BorrowBook
         
-        public ActionResult Index(string selectSort)
+        public ActionResult Index(string selectSort,string search)
         {
             if (!CheckLogin())
             {
                 return RedirectToAction("LoginPage", "Login");
             }
-
+            var borrowBooksSearch = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower);
             CheckExpire();
-
-            if(selectSort == null)
-            {
-                var borrowBooks = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower);
-                return View(borrowBooks.ToList());
-            }
 
             if (selectSort == "Earliest")
             {
@@ -84,8 +78,16 @@ namespace BMS.Controllers
                 return View(borrowBooksSortLatest.ToList());
             }
 
-            var borrowBooksSort = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b=>b.borrow_date);
-            return View(borrowBooksSort.ToList());
+            var borrowBooksSearchResult = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Category).Include(b => b.Category).Include(b => b.Borrower).Where(b => b.Book.book_name.Contains(search) || b.Borrower.borrower_name.Contains(search) || b.Category.category_name.Contains(search) ||b.Admin.admin_name.Contains(search));
+            if (borrowBooksSearchResult != null && search!=null)
+            {
+                return View(borrowBooksSearchResult);
+
+            }
+            return View(borrowBooksSearch);
+
+            //var borrowBooksSort = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b=>b.borrow_date);
+            //return View(borrowBooksSort.ToList());
         }
 
         // GET: BorrowBook/Details/5

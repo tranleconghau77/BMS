@@ -11,6 +11,7 @@ namespace BMS.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Web;
 
@@ -24,6 +25,7 @@ namespace BMS.Models
         }
     
         public int book_id { get; set; }
+        [Required(ErrorMessage = "Please enter book name.")]
         public string book_name { get; set; }
         public Nullable<int> book_category { get; set; }
         public Nullable<int> book_author { get; set; }

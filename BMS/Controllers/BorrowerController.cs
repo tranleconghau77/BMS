@@ -40,13 +40,21 @@ namespace BMS.Controllers
         }
 
         // GET: Borrower
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             if (!CheckLogin())
             {
                 return RedirectToAction("LoginPage", "Login");
             }
-
+            if(search == null)
+            {
+                return View(db.Borrowers.ToList());
+            }
+            var borrowers = db.Borrowers.Where(b => b.borrower_name.Contains(search) || b.borrower_email.Contains(search)|| b.borrower_phone== search || b.borrower_address.Contains(search);
+            if(borrowers != null)
+            {
+                return View("Index", borrowers);
+            }
             return View(db.Borrowers.ToList());
         }
 

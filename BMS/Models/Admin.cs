@@ -11,6 +11,7 @@ namespace BMS.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Web;
 
@@ -25,9 +26,12 @@ namespace BMS.Models
     
         public int admin_id { get; set; }
         public string admin_name { get; set; }
+        [Required]
         public string admin_username { get; set; }
         public string admin_password { get; set; }
+        [Required]
         public string admin_address { get; set; }
+        [Required]
         public string admin_phone { get; set; }
         public string admin_image { get; set; }
 

@@ -41,7 +41,7 @@ namespace BMS.Controllers
         }
 
         // GET: Book
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder,string search)
         {
             if (!CheckLogin())
             {
@@ -67,7 +67,19 @@ namespace BMS.Controllers
                     books = books.OrderBy(s => s.book_name);
                     break;
             }
-            return View(books.ToList());
+
+            if (search == null)
+            {
+                return View(books);
+            }
+             books = db.Books.Include(b => b.Author).Include(b => b.Category).Where(b => b.book_name.Contains(search) || b.Author.author_name.Contains(search) || b.Category.category_name.Contains(search));
+            if (books == null)
+            {
+                return View(books);
+
+            }
+            return View(books);
+            
         }
 
         // GET: Book/Details/5
@@ -248,23 +260,6 @@ namespace BMS.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost, ActionName("Search")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Search(String search)
-        {
-
-            if (!CheckLogin())
-            {
-                return RedirectToAction("LoginPage", "Login");
-            }
-
-            if (search == null)
-            {
-                return RedirectToAction("Index");
-            }
-            var books = db.Books.Include(b => b.Author).Include(b => b.Category).Where(b=>b.book_name.Contains(search) || b.Author.author_name.Contains(search) || b.Category.category_name.Contains(search));
-            return View("Index",books);
-        }
 
         protected override void Dispose(bool disposing)
         {

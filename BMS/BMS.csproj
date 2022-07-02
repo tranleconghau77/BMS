@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\GoogleController.cs" />
     <Compile Include="Env\CacheData.cs" />
     <Compile Include="Env\Secure.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middlewares\AuthenLogin.cs" />
     <Compile Include="Models\Admin.cs">
       <DependentUpon>BMSDATA.tt</DependentUpon>
     </Compile>
@@ -742,6 +744,7 @@
     <Content Include="Content\Nav\scss\material-dashboard\_variables.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\BorrowBook\autoUpdateDataInEdit.js" />
+    <Content Include="Scripts\BorrowBook\selectSort.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\chart.min.js" />
     <Content Include="Scripts\fileupload.js" />
@@ -763,7 +766,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -790,10 +792,11 @@
     <Content Include="Views\Redis\Index.cshtml" />
     <Content Include="Views\Statistic\SomeActionMethod.cshtml" />
     <Content Include="Views\Google\Index.cshtml" />
+    <Content Include="Views\ErrorPage\Index.cshtml" />
+    <Content Include="Views\ErrorPage\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

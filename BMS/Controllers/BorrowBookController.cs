@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BMS.Env;
 using BMS.Models;
 using EntityState = System.Data.Entity.EntityState;
 
@@ -14,9 +15,32 @@ namespace BMS.Controllers
     public class BorrowBookController : Controller
     {
         private BMSDATAEntities db = new BMSDATAEntities();
-        
+
+        public bool CheckLogin()
+        {
+
+            if ((string)Session["Username"] == null)
+            {
+                    return false;
+            }
+
+            string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+
+            if (authenToken == null)
+            {
+                return false;
+            }
+
+            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void CheckExpire()
         {
+
             var listExpire = db.BorrowBooks.Where(p=>p.status.Equals("Progress")).ToList();
             foreach(var book in listExpire)
             {
@@ -32,24 +56,56 @@ namespace BMS.Controllers
         }
 
         // GET: BorrowBook
-        public ActionResult Index()
+        
+        public ActionResult Index(string selectSort)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             CheckExpire();
-            var borrowBooks = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower);
-            return View(borrowBooks.ToList());
+
+            if(selectSort == null)
+            {
+                var borrowBooks = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower);
+                return View(borrowBooks.ToList());
+            }
+
+            if (selectSort == "Earliest")
+            {
+                var borrowBooksSortNewest = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderBy(b => b.borrow_date);
+                return View(borrowBooksSortNewest.ToList());
+            }
+
+            if (selectSort == "Latest")
+            {
+                var borrowBooksSortLatest = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b => b.borrow_date);
+                return View(borrowBooksSortLatest.ToList());
+            }
+
+            var borrowBooksSort = db.BorrowBooks.Include(b => b.Admin).Include(b => b.Book).Include(b => b.Category).Include(b => b.Borrower).OrderByDescending(b=>b.borrow_date);
+            return View(borrowBooksSort.ToList());
         }
 
         // GET: BorrowBook/Details/5
         public ActionResult Details(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             BorrowBook borrowBook = db.BorrowBooks.Find(id);
             if (borrowBook == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 500, message = "Internal Server Error" });
+
             }
             return View(borrowBook);
         }
@@ -71,6 +127,17 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BorrowBook borrowBook)
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (borrowBook == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             if (ModelState.IsValid)
             {
                 //borrowBook.borrow_date = DateTime.Today;
@@ -90,14 +157,21 @@ namespace BMS.Controllers
         // GET: BorrowBook/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             BorrowBook borrowBook = db.BorrowBooks.Find(id);
             if (borrowBook == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 500, message = "Internal Server Error" });
+
             }
             ViewBag.admin_id = new SelectList(db.Admins, "admin_id", "admin_name", borrowBook.admin_id);
             ViewBag.book_id = new SelectList(db.Books, "book_id", "book_name", borrowBook.book_id);
@@ -113,6 +187,17 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BorrowBook borrowBook)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+
+            if (borrowBook == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             if (ModelState.IsValid)
             {
                 
@@ -130,14 +215,21 @@ namespace BMS.Controllers
         // GET: BorrowBook/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             BorrowBook borrowBook = db.BorrowBooks.Find(id);
             if (borrowBook == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 500, message = "Internal Server Error" });
+
             }
             return View(borrowBook);
         }
@@ -145,8 +237,19 @@ namespace BMS.Controllers
         // POST: BorrowBook/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (id == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             BorrowBook borrowBook = db.BorrowBooks.Find(id);
             db.BorrowBooks.Remove(borrowBook);
             db.SaveChanges();

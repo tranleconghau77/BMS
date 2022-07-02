@@ -14,20 +14,31 @@ namespace BMS.Controllers
     {
         public bool CheckLogin()
         {
-            
-            string authenToken = CacheData.GetDataFromCache("AuthenToken");
-            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString()))){
+            if ((string)Session["Username"] == null)
+            {
+                return false;
+            }
+
+            string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+
+            if (authenToken == null)
+            {
+                return false;
+            }
+
+            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
+            {
                 return false;
             }
             return true;
         }
         public ActionResult Index()
         {
-            //    if (!CheckLogin())
-            //    {
-            //    return RedirectToAction("LoginPage","Login");
-            //    }
-              return View();
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            return View();
             
         }
 

@@ -1,4 +1,5 @@
-﻿using BMS.Models;
+﻿using BMS.Env;
+using BMS.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,28 @@ namespace BMS.Controllers
 {
     public class StatisticController : Controller
     {
+        public bool CheckLogin()
+        {
+
+            if ((string)Session["Username"] == null)
+            {
+                return false;
+            }
+
+            string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+
+            if (authenToken == null)
+            {
+                return false;
+            }
+
+            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
+            {
+                return false;
+            }
+            return true;
+        }
+
         private BMSDATAEntities db = new BMSDATAEntities();
         // GET: Statistic
 
@@ -47,6 +70,12 @@ namespace BMS.Controllers
         }
         public ActionResult Index()
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+
+            }
+
             InitData();
 
             return View();
@@ -54,6 +83,11 @@ namespace BMS.Controllers
 
         public ActionResult BorrowDataStatistic()
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             InitData();
 
             var output= JsonConvert.SerializeObject(ResultCountPerMonth);
@@ -64,6 +98,11 @@ namespace BMS.Controllers
 
         public ActionResult StatusDataStatistic()
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             InitData();
 
             var output = JsonConvert.SerializeObject(StatusLateCountPerMonth);

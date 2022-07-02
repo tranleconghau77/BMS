@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BMS.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace BMS
     public class MvcApplication : System.Web.HttpApplication
     {
         
+
         protected void Application_Start()
         {
            

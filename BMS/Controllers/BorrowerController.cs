@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BMS.Env;
 using BMS.Models;
 using EntityState = System.Data.Entity.EntityState;
 
@@ -16,19 +17,52 @@ namespace BMS.Controllers
     {
         private BMSDATAEntities db = new BMSDATAEntities();
 
+        public bool CheckLogin()
+        {
+            if ((string)Session["Username"] == null)
+            {
+                return false;
+            }
+
+
+            string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+
+            if (authenToken == null)
+            {
+                return false;
+            }
+
+            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
+            {
+                return false;
+            }
+            return true;
+        }
+
         // GET: Borrower
         public ActionResult Index()
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             return View(db.Borrowers.ToList());
         }
 
         // GET: Borrower/Details/5
         public ActionResult Details(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Borrower borrower = db.Borrowers.Find(id);
             if (borrower == null)
             {
@@ -40,6 +74,11 @@ namespace BMS.Controllers
         // GET: Borrower/Create
         public ActionResult Create()
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             Borrower borrower = new Borrower();
             return View(borrower);
         }
@@ -51,6 +90,18 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create( Borrower borrower)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+
+            if (borrower == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
+
             if (ModelState.IsValid)
             {
                 if (borrower.ImageUpload != null)
@@ -72,10 +123,16 @@ namespace BMS.Controllers
         // GET: Borrower/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Borrower borrower = db.Borrowers.Find(id);
             if (borrower == null)
             {
@@ -91,6 +148,16 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Borrower borrower)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (borrower == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             if (ModelState.IsValid)
             {
                 if (borrower.ImageUpload != null)
@@ -111,10 +178,16 @@ namespace BMS.Controllers
         // GET: Borrower/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Borrower borrower = db.Borrowers.Find(id);
             if (borrower == null)
             {
@@ -126,8 +199,18 @@ namespace BMS.Controllers
         // POST: Borrower/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (id == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             Borrower borrower = db.Borrowers.Find(id);
             db.Borrowers.Remove(borrower);
             db.SaveChanges();

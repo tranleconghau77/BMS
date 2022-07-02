@@ -6,9 +6,32 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+<div class="d-flex align-items-center justify-content-between">
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <div>
+        @using (Html.BeginForm("Index", "BorrowBook", FormMethod.Get, new { enctype = "multipart/form-data" }))
+        {
+            <div class="d-flex float-end align-items-center">
+                <select class="" id="selectSort" name="selectSort">
+                    <option value="Earliest">Earliest</option>
+                    <option value="Latest">Latest</option>
+                </select>
+
+                <div class="form-group m-3">
+                    <div class="">
+                        <input type="submit" id="selectSortbtn" value="Search" class="btn btn-default btn-warning" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
 <table class="table borrowbook">
     <tr>
         <th>

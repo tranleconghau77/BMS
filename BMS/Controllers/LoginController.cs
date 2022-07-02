@@ -29,10 +29,12 @@ namespace BMS.Controllers
         [HttpPost]
         public ActionResult LoginPage(Login person)
         {
+            ViewBag.AccountIsWrong = false;
             var password =Secure.Encrypt(person.Password);
             var checkAccount=db.Admins.Where(p=>p.admin_username==person.Username && p.admin_password==password).FirstOrDefault();
             if (checkAccount==null)
             {
+                ViewBag.AccountIsWrong = true;  
                 return View("LoginPage");
             }
             Session["UserName"] = checkAccount.admin_username;

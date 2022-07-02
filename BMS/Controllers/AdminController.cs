@@ -20,17 +20,30 @@ namespace BMS.Controllers
     public class AdminController : Controller
     {
         private BMSDATAEntities db = new BMSDATAEntities();
-
+        
         public bool CheckLogin()
         {
 
+            if ((string)Session["Username"] == null)
+            {
+                return false;
+            }
+
             string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+            
+            if (authenToken == null)
+            {
+                return false;
+            }
+
             if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
             {
                 return false;
             }
             return true;
         }
+
+
         // GET: Admin/Details/5
         public ActionResult Details()
         {
@@ -38,10 +51,7 @@ namespace BMS.Controllers
             {
                 return RedirectToAction("LoginPage", "Login");
             }
-            if (Session["Username"].ToString()==null)
-            {
-                return RedirectToAction("LoginPage", "Login");
-            }
+            
             string username = Session["Username"].ToString();
             var result = db.Admins.Where(y => y.admin_username == username).FirstOrDefault();
             
@@ -51,7 +61,10 @@ namespace BMS.Controllers
         // GET: Admin/Edit/5
         public ActionResult Edit(string name)
         {
-
+            if(name == null){
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message="Bad Request" });
+            }
+           
             if (!CheckLogin())
             {
                 return RedirectToAction("LoginPage", "Login");
@@ -77,6 +90,11 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Admin admin)
         {
+            if (admin == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
 
             if (!CheckLogin())
             {

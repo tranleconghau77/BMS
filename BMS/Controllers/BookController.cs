@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BMS.Env;
 using BMS.Models;
 using EntityState = System.Data.Entity.EntityState;
 
@@ -17,10 +18,37 @@ namespace BMS.Controllers
     {
         private BMSDATAEntities db = new BMSDATAEntities();
 
+
+        public bool CheckLogin()
+        {
+            if ((string)Session["Username"] == null)
+            {
+                return false;
+            }
+
+            string authenToken = CacheData.GetDataFromCache(Session["Username"].ToString());
+
+            if (authenToken == null)
+            {
+                return false;
+            }
+
+            if (Secure.Decrypt(authenToken) != Secure.Decrypt(Secure.Decrypt(Session["Token"].ToString())))
+            {
+                return false;
+            }
+            return true;
+        }
+
         // GET: Book
         public ActionResult Index(string sortOrder)
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name" : "";
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name" : "name";
             ViewBag.AuthorSortParm = String.IsNullOrEmpty(sortOrder) ? "author" : "author";
             ViewBag.CategorySortParm = String.IsNullOrEmpty(sortOrder) ? "category" : "category";
             var books = db.Books.Include(b => b.Author).Include(b => b.Category);
@@ -45,10 +73,17 @@ namespace BMS.Controllers
         // GET: Book/Details/5
         public ActionResult Details(int? id)
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Book book = db.Books.Find(id);
             if (book == null)
             {
@@ -60,6 +95,11 @@ namespace BMS.Controllers
         // GET: Book/Create
         public ActionResult Create()
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
 
             Book book = new Book();
             ViewBag.book_author = new SelectList(db.Authors, "author_id", "author_name");
@@ -74,6 +114,18 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create( Book book)
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (book == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
+
             if (ModelState.IsValid)
             {
                 if (book.ImageUpload != null)
@@ -97,10 +149,16 @@ namespace BMS.Controllers
         // GET: Book/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Book book = db.Books.Find(id);
             if (book == null)
             {
@@ -118,6 +176,17 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Book book)
         {
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (book == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
             if (ModelState.IsValid)
             {
                 if (book.ImageUpload != null)
@@ -140,14 +209,20 @@ namespace BMS.Controllers
         // GET: Book/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
             }
+
             Book book = db.Books.Find(id);
             if (book == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 500, message = "Internal Server Error" }); ;
             }
             return View(book);
         }
@@ -155,8 +230,18 @@ namespace BMS.Controllers
         // POST: Book/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Error", "ErrorPage", new { statusCode = 400, message = "Bad Request" });
+            }
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
             Book book = db.Books.Find(id);
             db.Books.Remove(book);
             db.SaveChanges();
@@ -167,7 +252,13 @@ namespace BMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Search(String search)
         {
-            if(search == null)
+
+            if (!CheckLogin())
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            if (search == null)
             {
                 return RedirectToAction("Index");
             }
